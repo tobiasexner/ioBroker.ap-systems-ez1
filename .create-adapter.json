@@ -1,0 +1,42 @@
+{
+	"cli": true,
+	"target": "directory",
+	"adapterName": "ap-systems-ez1",
+	"title": "APsystemsEZ1",
+	"description": "This adapter is used to interact with APsystems EZ1 Microinverters. It provides a convinient way to communicate with the microinverter over your local network.",
+	"keywords": [
+		"APsystems EZ1 Microinverter"
+	],
+	"expert": "no",
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "iot-systems",
+	"startMode": "daemon",
+	"connectionType": "local",
+	"dataSource": "poll",
+	"connectionIndicator": "no",
+	"language": "TypeScript",
+	"nodeVersion": "16",
+	"adminUi": "json",
+	"tools": [
+		"ESLint",
+		"devcontainer"
+	],
+	"releaseScript": "yes",
+	"devServer": "yes",
+	"devServerPort": 8081,
+	"indentation": "Tab",
+	"quotes": "double",
+	"es6class": "yes",
+	"authorName": "Tobias Exner",
+	"authorGithub": "tobias.exner@soptim.de",
+	"authorEmail": "tobias.exner@soptim.de",
+	"gitRemoteProtocol": "HTTPS",
+	"gitCommit": "no",
+	"defaultBranch": "main",
+	"license": "MIT License",
+	"dependabot": "yes",
+	"creatorVersion": "2.5.0"
+}
