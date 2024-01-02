@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/ReturnOutputData.ts"],
+  "sourcesContent": ["// Information about energy/power-related information\r\nexport interface ReturnOutputData {\r\n\t// Power output status of inverter input 1\r\n\tp1: number;\r\n\r\n\t// Energy reading for inverter input 1\r\n\te1: number;\r\n\r\n\t// Total energy for inverter input 1\r\n\tte1: number;\r\n\r\n\t// Power output status of inverter input 2\r\n\tp2: number;\r\n\r\n\t// Energy reading for inverter input 2\r\n\te2: number;\r\n\r\n\t// Total energy for inverter input 2\r\n\tte2: number;\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

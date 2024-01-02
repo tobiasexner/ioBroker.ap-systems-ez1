@@ -1,0 +1,87 @@
+{
+	"common": {
+		"name": "ap-systems-ez1",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "APsystemsEZ1",
+		"titleLang": {
+			"en": "APsystemsEZ1",
+			"de": "APsystemsEZ1",
+			"ru": "APsystemsEZ1",
+			"pt": "APsystemsEZ1",
+			"nl": "APsystemsEZ1",
+			"fr": "APsystemsEZ1",
+			"it": "APsystemsEZ1",
+			"es": "APsystemsEZ1",
+			"pl": "APsystemsEZ1",
+			"uk": "APsystemsEZ1",
+			"zh-cn": "AP系统EZ1"
+		},
+		"desc": {
+			"en": "This adapter is used to interact with APsystems EZ1 Microinverters. It provides a convinient way to communicate with the microinverter over your local network.",
+			"de": "Dieser Adapter wird für die Interaktion mit APsystems EZ1-Mikrowechselrichtern verwendet. Es bietet eine praktische Möglichkeit, über Ihr lokales Netzwerk mit dem Mikrowechselrichter zu kommunizieren.",
+			"ru": "Этот адаптер используется для взаимодействия с микроинверторами APsystems EZ1. Он обеспечивает удобный способ связи с микроинвертором по локальной сети.",
+			"pt": "Este adaptador é usado para interagir com microinversores EZ1 da APsystems. Ele fornece uma maneira conveniente de comunicação com o microinversor em sua rede local.",
+			"nl": "Deze adapter wordt gebruikt voor interactie met APsystems EZ1 micro-omvormers. Het biedt een handige manier om via uw lokale netwerk met de micro-omvormer te communiceren.",
+			"fr": "Cet adaptateur est utilisé pour interagir avec les micro-onduleurs APsystems EZ1. Il fournit un moyen pratique de communiquer avec le micro-onduleur sur votre réseau local.",
+			"it": "Questo adattatore viene utilizzato per interagire con i microinverter APsystems EZ1. Fornisce un modo conveniente per comunicare con il microinverter sulla rete locale.",
+			"es": "Este adaptador se utiliza para interactuar con los microinversores APsystems EZ1. Proporciona una manera conveniente de comunicarse con el microinversor a través de su red local.",
+			"pl": "Adapter ten służy do współpracy z mikroinwerterami APsystems EZ1. Zapewnia wygodny sposób komunikacji z mikroinwerterem poprzez sieć lokalną.",
+			"uk": "Цей адаптер використовується для взаємодії з мікроінверторами APsystems EZ1. Він забезпечує зручний спосіб зв'язку з мікроінвертором через локальну мережу.",
+			"zh-cn": "该适配器用于与 APsystems EZ1 微型逆变器交互。它提供了一种通过本地网络与微型逆变器进行通信的便捷方式。"
+		},
+		"authors": [
+			"Tobias Exner <tobias.exner@soptim.de>"
+		],
+		"keywords": [
+			"APsystems EZ1 Microinverter"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "ap-systems-ez1.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/tobias.exner@soptim.de/ioBroker.ap-systems-ez1/main/admin/ap-systems-ez1.png",
+		"readme": "https://github.com/tobias.exner@soptim.de/ioBroker.ap-systems-ez1/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "iot-systems",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.1.13"
+			}
+		]
+	},
+	"native": {
+		"port": "8050",
+		"ipAddress": "127.0.0.1",
+		"pollIntervalInSeconds": "60"
+	},
+	"objects": [],
+	"instanceObjects": []
+}

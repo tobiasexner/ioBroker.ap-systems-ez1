@@ -1,0 +1,21 @@
+{
+	"i18n": true,
+	"type": "panel",
+	"items": {
+		"ipAddress": {
+			"type": "text",
+			"label": "ipAddress",
+			"newLine": true
+		},
+		"port": {
+			"type": "text",
+			"label": "port",
+			"newLine": true
+		},
+		"pollIntervalInSeconds": {
+			"type": "number",
+			"label": "pollIntervalInSeconds",
+			"newLine": true
+		}
+	}
+}

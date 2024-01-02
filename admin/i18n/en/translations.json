@@ -1,0 +1,6 @@
+{
+	"ap-systems-ez1 adapter settings": "Adapter settings for ap-systems-ez1",
+	"ipAddress": "IP Address",
+	"port": "Port",
+	"pollIntervalInSeconds": "Poll interval in seconds"
+}

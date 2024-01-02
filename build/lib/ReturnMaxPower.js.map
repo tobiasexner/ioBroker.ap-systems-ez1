@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/ReturnMaxPower.ts"],
+  "sourcesContent": ["// Information about max power\r\nexport interface ReturnMaxPower {\r\n\t// The maximum power value\r\n\tmaxPower: string;\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

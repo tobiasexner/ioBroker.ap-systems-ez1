@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/ReturnAlarmInfo.ts"],
+  "sourcesContent": ["// Information about possible point of failures\r\nexport interface ReturnAlarmInfo {\r\n\t// Off-Grid Status (normal/0 when okay)\r\n\tog: string;\r\n\r\n\t// DC 1 Short Circuit Error status (normal/0 when okay)\r\n\tisce1: string;\r\n\r\n\t// DC 2 Short Circuit Error status (normal/0 when okay)\r\n\tisce2: string;\r\n\r\n\t// Output fault status (normal/0 when okay)\r\n\toe: string;\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/TypedReturnDto.ts"],
+  "sourcesContent": ["export interface TypedReturnDto<T> {\r\n\tdata: T;\r\n\tmessage: string;\r\n\tdeviceId: string;\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}
