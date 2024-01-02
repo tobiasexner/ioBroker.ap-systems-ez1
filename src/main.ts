@@ -5,15 +5,15 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
+import { ApSystemsEz1Client } from "./lib/ApSystemsEz1Client";
 
 // Load your modules here, e.g.:
 // import * as fs from "fs";
 
 class ApSystemsEz1 extends utils.Adapter {
 
-	private refreshTimeout: NodeJS.Timeout | undefined;
-
-	private pollIntervalInSeconds: number = 60;
+	private pollIntervalInMilliSeconds: number = 60;
+	private apiClient!: ApSystemsEz1Client;
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -44,54 +44,193 @@ class ApSystemsEz1 extends utils.Adapter {
 			return;
 		}
 
-		this.pollIntervalInSeconds = this.config.pollIntervalInSeconds;
+		this.pollIntervalInMilliSeconds = this.config.pollIntervalInSeconds * 1000;
+		this.apiClient = new ApSystemsEz1Client(this.log, this.config.ipAddress, this.config.port);
 
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		await this.setObjectNotExistsAsync("testVariable", {
-			type: "state",
-			common: {
-				name: "testVariable",
-				type: "boolean",
-				role: "indicator",
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-
-		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-		this.subscribeStates("testVariable");
-		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-		// this.subscribeStates("lights.*");
-		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-		// this.subscribeStates("*");
-
-		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-		// the variable testVariable is set to true as command (ack=false)
-		await this.setStateAsync("testVariable", true);
-
-		// same thing, but the value is flagged "ack"
-		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setStateAsync("testVariable", { val: true, ack: true });
-
-		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+		setInterval(() => {
+			this.setDeviceInfoStates();
+			this.setOutputDataStates();
+			this.setAlarmInfoStates();
+			this.setOnOffStatusState();
+			this.setMaxPowerState();
+		}, this.pollIntervalInMilliSeconds); // poll every <60> seconds
 
 
-		try {
-			this.setupRefreshTimeout();
-		} catch (error) {
-			await this.handleClientError(error)
-		}
+		// // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
+		// this.subscribeStates("testVariable");
+		// // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
+		// // this.subscribeStates("lights.*");
+		// // Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
+		// // this.subscribeStates("*");
 
+		// /*
+		// 	setState examples
+		// 	you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
+		// */
+		// // the variable testVariable is set to true as command (ack=false)
+		// await this.setStateAsync("testVariable", true);
+
+		// // same thing, but the value is flagged "ack"
+		// // ack should be always set to true if the value is received from or acknowledged from the target system
+		// await this.setStateAsync("testVariable", { val: true, ack: true });
+
+		// // same thing, but the state is deleted after 30s (getState will return null afterwards)
+		// await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
 	}
+
+	private setDeviceInfoStates() : void {
+		this.apiClient.getDeviceInfo().then(async (deviceInfo) => {
+			this.log.info(`deviceInfo: ${JSON.stringify(deviceInfo)}`);
+
+			if (deviceInfo !== undefined) {
+				const res = deviceInfo.data;
+				const strings = [
+					{ name: "DeviceId", value: res.deviceId },
+					{ name: "DevVer", value: res.devVer },
+					{ name: "Ssid", value: res.ssid },
+					{ name: "IpAddr", value: res.ipAddr }
+				];
+
+				strings.forEach(async (element) => {
+					if (!(await this.getStateAsync(element.name))) {
+						this.createState("DeviceInfo", "", element.name,
+							{
+								type: "string",
+								role: "text",
+								read: true,
+								write: false
+							}, () => this.log.info(`state ${element.name} created`));
+					}
+					await this.setStateAsync(`DeviceInfo.${element.name}`, { val: element.value, ack: true });
+				});
+
+				const numbers = [
+					{ name: "MaxPower", value: res.maxPower },
+					{ name: "MinPower", value: res.minPower }
+				];
+
+				numbers.forEach(async (element) => {
+					if (!(await this.getStateAsync(element.name))) {
+						this.createState("DeviceInfo", "", element.name,
+							{
+								type: "number",
+								role: "value",
+								read: true,
+								write: false
+							}, () => this.log.info(`state ${element.name} created`));
+					}
+					await this.setStateAsync(`DeviceInfo.${element.name}`, { val: element.value, ack: true });
+				});
+			}
+		});
+	}
+
+	private setOutputDataStates() : void {
+		this.apiClient.getOutputData().then(async (outputData) => {
+			this.log.info(`outputData: ${JSON.stringify(outputData)}`);
+
+			if (outputData !== undefined) {
+				const res = outputData.data;
+				const numbers = [
+					{ name: "CurrentPower_1", value: res.p1 },
+					{ name: "CurrentPower_2", value: res.p2 },
+					{ name: "CurrentPower_Total", value: res.p1 + res.p2 },
+					{ name: "EnergyToday_1", value: res.e1 },
+					{ name: "EnergyToday_2", value: res.e2 },
+					{ name: "EnergyToday_Total", value: res.e1 + res.e2 },
+					{ name: "EnergyLifetime_1", value: res.te1 },
+					{ name: "EnergyLifetime_2", value: res.te2 },
+					{ name: "EnergyLifetime_Total", value: res.te1 + res.te2 },
+				];
+
+				numbers.forEach(async (element) => {
+					if (!(await this.getStateAsync(element.name))) {
+						this.createState("OutputData", "", element.name,
+							{
+								type: "number",
+								role: "value",
+								read: true,
+								write: false
+							}, () => this.log.info(`state ${element.name} created`));
+					}
+					await this.setStateAsync(`OutputData.${element.name}`, { val: element.value, ack: true });
+				});
+			}
+		});
+	}
+
+	private setAlarmInfoStates() : void {
+		this.apiClient.getAlarmInfo().then(async (alarmInfo) => {
+			this.log.info(`alarmInfo: ${JSON.stringify(alarmInfo)}`);
+
+			if (alarmInfo !== undefined) {
+				const res = alarmInfo.data;
+				const numbers = [
+					{ name: "OffGrid", value: res.og },
+					{ name: "ShortCircuitError_1", value: res.isce1 },
+					{ name: "ShortCircuitError_2", value: res.isce2 },
+					{ name: "OutputFault", value: res.oe },
+				];
+
+				numbers.forEach(async (element) => {
+					if (!(await this.getStateAsync(element.name))) {
+						this.createState("AlarmInfo", "", element.name,
+							{
+								type: "string",
+								role: "text",
+								read: true,
+								write: false
+							}, () => this.log.info(`state ${element.name} created`));
+					}
+
+					const value = element.value === "0" ? "Normal" : "Alarm";
+					await this.setStateAsync(`AlarmInfo.${element.name}`, { val: value, ack: true });
+				});
+			}
+		});
+	}
+
+	private setOnOffStatusState() : void {
+		this.apiClient.getOnOffStatus().then(async (onOffStatus) => {
+			this.log.info(`onOffStatus: ${JSON.stringify(onOffStatus)}`);
+
+			if (onOffStatus !== undefined) {
+				const res = onOffStatus.data;
+				if (!(await this.getStateAsync("OnOffStatus"))) {
+					this.createState("OnOffStatus", "", "OnOffStatus",
+						{
+							type: "string",
+							role: "text",
+							read: true,
+							write: false
+						}, () => this.log.info(`state OnOffStatus created`));
+					const value = res.status === "0" ? "on" : "off";
+					await this.setStateAsync(`OnOffStatus.OnOffStatus`, { val: value, ack: true });
+				}
+			}
+		});
+	}
+
+	private setMaxPowerState() : void {
+		this.apiClient.getMaxPower().then(async (maxPower) => {
+			this.log.info(`maxPower: ${JSON.stringify(maxPower)}`);
+
+			if (maxPower !== undefined) {
+				const res = maxPower.data;
+				if (!(await this.getStateAsync("MaxPower"))) {
+					this.createState("MaxPower", "", "MaxPower",
+						{
+							type: "string",
+							role: "text",
+							read: true,
+							write: false
+						}, () => this.log.info(`state MaxPower created`));
+					await this.setStateAsync(`MaxPower.MaxPower`, { val: res.maxPower, ack: true });
+				}
+			}
+		});
+	}
+
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 */
@@ -154,32 +293,13 @@ class ApSystemsEz1 extends utils.Adapter {
 	// 	}
 	// }
 
-	private setupRefreshTimeout(): void {
-		this.log.debug("setupRefreshTimeout")
-		const refreshIntervalInMilliseconds = this.pollIntervalInSeconds * 1000
-		this.log.debug(`refreshIntervalInMilliseconds=${refreshIntervalInMilliseconds}`)
-		this.refreshTimeout = setTimeout(this.refreshTimeoutFunc.bind(this), refreshIntervalInMilliseconds);
-	}
-
-	private async refreshTimeoutFunc(): Promise<void> {
-		this.log.debug("refreshTimeoutFunc started.")
-		try {
-			//TODO implement me!
-			//await this.refreshDevices()
-			this.setupRefreshTimeout()
-		} catch (error) {
-			await this.handleClientError(error)
-		}
-	}
-
 	private async handleClientError(error: unknown): Promise<void> {
-	    if (error instanceof Error) {
+		if (error instanceof Error) {
 			this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`)
 		} else {
 			this.log.error(`Unknown error: ${error}`)
 		}
 	}
-
 }
 
 if (require.main !== module) {

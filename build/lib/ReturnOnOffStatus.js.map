@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/ReturnOnOffStatus.ts"],
+  "sourcesContent": ["// Information about on/off status\r\nexport interface ReturnOnOffStatus {\r\n\t// on/off status (0: on, 1: off)\r\n\tstatus: string;\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/ReturnDeviceInfo.ts"],
+  "sourcesContent": ["// Different information about the inverter\r\nexport interface ReturnDeviceInfo {\r\n\t// The unique identifier for the device.\r\n\tdeviceId: string;\r\n\r\n\t// The version of the device firmware or software.\r\n\tdevVer: string;\r\n\r\n\t// The SSID of the network to which the device is currently connected.\r\n\tssid: string;\r\n\r\n\t// The current IP address of the device.\r\n\tipAddr: string;\r\n\r\n\t// The minimum power output that the device can be set to, measured in watts.\r\n\tminPower: number;\r\n\r\n\t// The maximum power output that the device can be set to, measured in watts.\r\n\tmaxPower: number;\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}
