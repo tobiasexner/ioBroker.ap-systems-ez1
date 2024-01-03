@@ -113,8 +113,8 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 	### **WORK IN PROGRESS**
 -->
 
-### **0.0.1**
-* (Tobias Exner) initial release
+### **0.0.1 (2024-01-03)**
+* (tobiasexner) initial release
 
 ## License
 MIT License
