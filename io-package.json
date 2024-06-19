@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "ap-systems-ez1",
-		"version": "0.0.2",
+		"version": "0.0.1",
 		"news": {
 			"0.0.2": {
 				"en": "error message when connection fails fixed",
