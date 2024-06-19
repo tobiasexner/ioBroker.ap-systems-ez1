@@ -8,11 +8,13 @@ import { ReturnMaxPower } from "./ReturnMaxPower";
 
 export class ApSystemsEz1Client {
 	private baseUrl: string | undefined;
+	private ignoreConnectionErrorMessages: boolean | undefined;
 	private log!: ioBroker.Logger;
 
-	constructor(logger : ioBroker.Logger, ipAddress: string, port: number) {
+	constructor(logger : ioBroker.Logger, ipAddress: string, port: number, ignoreConnectionErrorMessages: boolean = false) {
 		this.log = logger;
 		this.baseUrl = `http://${ipAddress}:${port}`;
+		this.ignoreConnectionErrorMessages = ignoreConnectionErrorMessages;
 	}
 
 
@@ -151,7 +153,9 @@ export class ApSystemsEz1Client {
 	}
 
 	private async handleClientError(error: unknown): Promise<void> {
-	    if (error instanceof Error) {
+	    if (this.ignoreConnectionErrorMessages) {
+			return;
+		} else if (error instanceof Error) {
 			this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`)
 		} else {
 			this.log.error(`Unknown error: ${error}`)

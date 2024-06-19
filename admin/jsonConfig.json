@@ -16,6 +16,11 @@
 			"type": "number",
 			"label": "pollIntervalInSeconds",
 			"newLine": true
+		},
+		"ignoreConnectionErrorMessages": {
+			"type": "checkbox",
+			"label": "ignoreConnectionErrorMessages",
+			"newLine": true
 		}
 	}
 }

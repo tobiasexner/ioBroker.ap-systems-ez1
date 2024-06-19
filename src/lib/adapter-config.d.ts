@@ -7,6 +7,7 @@ declare global {
 			ipAddress: string;
 			port: number;
 			pollIntervalInSeconds: number;
+			ignoreConnectionErrorMessages: boolean;
 		}
 	}
 }

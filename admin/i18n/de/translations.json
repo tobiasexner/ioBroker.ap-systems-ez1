@@ -2,5 +2,6 @@
 	"ap-systems-ez1 adapter settings": "Adaptereinstellungen für ap-systems-ez1",
 	"ipAddress": "IP Adresse",
 	"port": "Port",
-	"pollIntervalInSeconds": "Abfrageintervall in Sekunden"
+	"pollIntervalInSeconds": "Abfrageintervall in Sekunden",
+	"ignoreConnectionErrorMessages": "Ignoriere Verbindungsfehlermeldungen"
 }

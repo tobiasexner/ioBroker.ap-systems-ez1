@@ -38,6 +38,7 @@ class ApSystemsEz1 extends utils.Adapter {
 		this.log.info("config ipAddress: " + this.config.ipAddress);
 		this.log.info("config port: " + this.config.port);
 		this.log.info("config pollIntervalInSeconds: " + this.config.pollIntervalInSeconds);
+		this.log.info("config ignoreConnectionErrorMessages: " + this.config.ignoreConnectionErrorMessages);
 
 		if (!this.config?.ipAddress || !this.config?.port || !this.config?.pollIntervalInSeconds) {
 			this.log.error("Can not start with in valid config. Please open config.");
@@ -45,7 +46,7 @@ class ApSystemsEz1 extends utils.Adapter {
 		}
 
 		this.pollIntervalInMilliSeconds = this.config.pollIntervalInSeconds * 1000;
-		this.apiClient = new ApSystemsEz1Client(this.log, this.config.ipAddress, this.config.port);
+		this.apiClient = new ApSystemsEz1Client(this.log, this.config.ipAddress, this.config.port, this.config?.ignoreConnectionErrorMessages);
 
 		setInterval(() => {
 			this.setDeviceInfoStates();

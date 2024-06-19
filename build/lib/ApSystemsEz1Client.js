@@ -29,9 +29,10 @@ __export(ApSystemsEz1Client_exports, {
 module.exports = __toCommonJS(ApSystemsEz1Client_exports);
 var import_axios = __toESM(require("axios"));
 class ApSystemsEz1Client {
-  constructor(logger, ipAddress, port) {
+  constructor(logger, ipAddress, port, ignoreConnectionErrorMessages = false) {
     this.log = logger;
     this.baseUrl = `http://${ipAddress}:${port}`;
+    this.ignoreConnectionErrorMessages = ignoreConnectionErrorMessages;
   }
   async getRequest(endpoint) {
     try {
@@ -46,7 +47,9 @@ class ApSystemsEz1Client {
         return result;
       }
     } catch (error) {
-      await this.handleClientError(error);
+      if (!this.ignoreConnectionErrorMessages) {
+        await this.handleClientError(error);
+      }
     }
   }
   async getDeviceInfo() {

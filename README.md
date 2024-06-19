@@ -113,6 +113,12 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 	### **WORK IN PROGRESS**
 -->
 
+
+
+### **0.0.2 (2024-06-19)**
+* (tobiasexner) bugfix issue #14: Iobroker reports error when offline
+
+
 ### **0.0.1 (2024-01-03)**
 * (tobiasexner) initial release
 

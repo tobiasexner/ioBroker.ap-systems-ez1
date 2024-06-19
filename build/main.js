@@ -31,16 +31,17 @@ class ApSystemsEz1 extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     this.log.info("config ipAddress: " + this.config.ipAddress);
     this.log.info("config port: " + this.config.port);
     this.log.info("config pollIntervalInSeconds: " + this.config.pollIntervalInSeconds);
+    this.log.info("config ignoreConnectionErrorMessages: " + this.config.ignoreConnectionErrorMessages);
     if (!((_a = this.config) == null ? void 0 : _a.ipAddress) || !((_b = this.config) == null ? void 0 : _b.port) || !((_c = this.config) == null ? void 0 : _c.pollIntervalInSeconds)) {
       this.log.error("Can not start with in valid config. Please open config.");
       return;
     }
     this.pollIntervalInMilliSeconds = this.config.pollIntervalInSeconds * 1e3;
-    this.apiClient = new import_ApSystemsEz1Client.ApSystemsEz1Client(this.log, this.config.ipAddress, this.config.port);
+    this.apiClient = new import_ApSystemsEz1Client.ApSystemsEz1Client(this.log, this.config.ipAddress, this.config.port, (_d = this.config) == null ? void 0 : _d.ignoreConnectionErrorMessages);
     setInterval(() => {
       this.setDeviceInfoStates();
       this.setOutputDataStates();
