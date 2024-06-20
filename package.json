@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ap-systems-ez1",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "This adapter is used to interact with APsystems EZ1 Microinverters. It provides a convinient way to communicate with the microinverter over your local network.",
   "author": {
     "name": "Tobias Exner",
