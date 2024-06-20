@@ -33,9 +33,10 @@ __export(ApSystemsEz1Client_exports, {
 module.exports = __toCommonJS(ApSystemsEz1Client_exports);
 var import_axios = __toESM(require("axios"));
 class ApSystemsEz1Client {
-  constructor(logger, ipAddress, port) {
+  constructor(logger, ipAddress, port, ignoreConnectionErrorMessages = false) {
     this.log = logger;
     this.baseUrl = `http://${ipAddress}:${port}`;
+    this.ignoreConnectionErrorMessages = ignoreConnectionErrorMessages;
   }
   /**
    * A private method to send HTTP requests to the specified endpoint of the microinverter.
@@ -158,7 +159,9 @@ class ApSystemsEz1Client {
     return result;
   }
   async handleClientError(error) {
-    if (error instanceof Error) {
+    if (this.ignoreConnectionErrorMessages) {
+      return;
+    } else if (error instanceof Error) {
       this.log.error(`Unknown error: ${error}. Stack: ${error.stack}`);
     } else {
       this.log.error(`Unknown error: ${error}`);

@@ -3,6 +3,19 @@
 		"name": "ap-systems-ez1",
 		"version": "0.0.1",
 		"news": {
+			"0.0.2": {
+				"en": "error message when connection fails fixed",
+				"de": "fehlermeldung beim ausfall der verbindung",
+				"ru": "сообщение об ошибке при сбое соединения",
+				"pt": "mensagem de erro quando a conexão falha fixa",
+				"nl": "foutmelding wanneer verbinding mislukt",
+				"fr": "message d'erreur lorsque la connexion échoue",
+				"it": "messaggio di errore quando la connessione non funziona",
+				"es": "mensaje de error cuando la conexión falla",
+				"pl": "komunikat błędu, gdy połączenie nie powiodło się",
+				"uk": "повідомлення про помилку при підключенні не фіксується",
+				"zh-cn": "连接失败时错误消息"
+			},
 			"0.0.1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
@@ -80,7 +93,8 @@
 	"native": {
 		"port": "8050",
 		"ipAddress": "127.0.0.1",
-		"pollIntervalInSeconds": "60"
+		"pollIntervalInSeconds": "60",
+		"ignoreConnectionErrorMessages": false
 	},
 	"objects": [],
 	"instanceObjects": []
